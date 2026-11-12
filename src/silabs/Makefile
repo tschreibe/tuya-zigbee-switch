@@ -170,7 +170,7 @@ ota:
 		"$(ZIGBEE_BUILD_DIR)/build/release/$(ZIGBEE_PROJECT_NAME).gbl" \
 		--app "$(ZIGBEE_BUILD_DIR)/build/release/$(ZIGBEE_PROJECT_NAME).s37" \
 		--compress lzma
-	$(COMMANDER_DIR)/commander-cli ota create \
+	python3 ../../helper_scripts/make_silabs_ota.py \
 		--upgrade-image "$(ZIGBEE_BUILD_DIR)/build/release/$(ZIGBEE_PROJECT_NAME).gbl" \
 		$(OTA_VERSION_ARG) \
 		--manufacturer-id "${OTA_MANUFACTURER_ID}" \

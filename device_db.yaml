@@ -6279,6 +6279,33 @@ SWITCH_TUYA_CN_TS0004:
   info: Needs netled on A0
   threads: https://github.com/romasku/tuya-zigbee-switch/issues/181
   store: null
+SWITCH_TUYA_CLONE_TS0003:
+  human_name: Tuya 3-gang wall switch (_TYZB01_b8cr31hp)
+  category: switch
+  power: mains
+  neutral: required
+  output: relay
+  device_type: router
+  stock_model_name: TS0003
+  stock_manufacturer_name: _TYZB01_b8cr31hp
+  stock_converter_manufacturer: Tuya
+  stock_converter_model: TS0003
+  override_z2m_device: null
+  tuya_module: null
+  mcu_family: Silabs
+  mcu: EFR32MG21A020F768IM32
+  config_str: b8cr31hp;TS0003-CL;LC2;SA3u;RA4;IC0;SA6u;RB0;IA0;SB1u;RD1;IC1;M;
+  alt_config_str: null
+  old_manufacturer_names: null
+  old_zb_models: null
+  stock_manufacturer_id: 0
+  stock_image_type: 0
+  firmware_image_type: 47119
+  build: yes
+  status: in_progress
+  info: MCU and pinout set from SWITCH_PSMART_SL_TS0003 (the Silabs TS0003 reference); stock identity 0/0 measured from the device's QueryNextImageRequest; adjust the config string over the air after the first flash.
+  threads: null
+  store: null
 SWITCH_TUYA_TOUCH_TS0003:
   human_name: Tuya 3-gang touch switch
   category: switch

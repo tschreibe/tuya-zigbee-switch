@@ -16,6 +16,11 @@ SIMPLICITY_SDK_URL := $(SIMPLICITY_SDK_REPO)/releases/download/v$(SIMPLICITY_SDK
 COMMANDER_URL := https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip
 SLC_CLI_URL := https://www.silabs.com/documents/public/software/slc_cli_linux.zip
 
+# silabs.com's edge denies automated downloads of these two files; the Wayback
+# Machine copy of the same URL answers when the live one returns 403.
+COMMANDER_FALLBACK_URL := https://web.archive.org/web/20220130022849if_/$(COMMANDER_URL)
+SLC_CLI_FALLBACK_URL := https://web.archive.org/web/20251210065623if_/$(SLC_CLI_URL)
+
 # ZAP tool configuration
 ZAP_VERSION := 2025.10.23
 ZAP_ARCHIVE := zap-linux-x64.zip
@@ -105,10 +110,15 @@ $(TOOLS_DIR)/commander: | $(DOWNLOAD_DIR)
 		if ! curl -L "$(COMMANDER_URL)" \
 			-o "$(DOWNLOAD_DIR)/SimplicityCommander-Linux.zip" \
 			--fail --show-error --connect-timeout 30; then \
-			echo "Download failed. Please manually download SimplicityCommander-Linux.zip"; \
-			echo "and save it as: $(DOWNLOAD_DIR)/SimplicityCommander-Linux.zip"; \
-			echo "Then run 'make commander' again"; \
-			exit 1; \
+			echo "Live URL failed; trying: $(COMMANDER_FALLBACK_URL)"; \
+			if ! curl -L "$(COMMANDER_FALLBACK_URL)" \
+				-o "$(DOWNLOAD_DIR)/SimplicityCommander-Linux.zip" \
+				--fail --show-error --connect-timeout 30; then \
+				echo "Download failed. Please manually download SimplicityCommander-Linux.zip"; \
+				echo "and save it as: $(DOWNLOAD_DIR)/SimplicityCommander-Linux.zip"; \
+				echo "Then run 'make commander' again"; \
+				exit 1; \
+			fi; \
 		fi; \
 	fi
 	@echo "Extracting Simplicity Commander..."
@@ -149,10 +159,15 @@ $(TOOLS_DIR)/slc-cli: | $(DOWNLOAD_DIR)
 		if ! curl -L "$(SLC_CLI_URL)" \
 			-o "$(DOWNLOAD_DIR)/slc_cli_linux.zip" \
 			--fail --show-error --connect-timeout 30; then \
-			echo "Download failed. Please manually download slc_cli_linux.zip"; \
-			echo "and save it as: $(DOWNLOAD_DIR)/slc_cli_linux.zip"; \
-			echo "Then run 'make slc-cli' again"; \
-			exit 1; \
+			echo "Live URL failed; trying: $(SLC_CLI_FALLBACK_URL)"; \
+			if ! curl -L "$(SLC_CLI_FALLBACK_URL)" \
+				-o "$(DOWNLOAD_DIR)/slc_cli_linux.zip" \
+				--fail --show-error --connect-timeout 30; then \
+				echo "Download failed. Please manually download slc_cli_linux.zip"; \
+				echo "and save it as: $(DOWNLOAD_DIR)/slc_cli_linux.zip"; \
+				echo "Then run 'make slc-cli' again"; \
+				exit 1; \
+			fi; \
 		fi; \
 	fi
 	@echo "Extracting SLC CLI..."
